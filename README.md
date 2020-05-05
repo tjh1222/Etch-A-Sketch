@@ -1,0 +1,1 @@
+This project is a browser based version of Etch-A-Sketch to practice DOM manipulation.
