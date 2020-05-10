@@ -1,0 +1,90 @@
+html {
+    padding: 0px;
+    margin: 0px;
+    width: 100%;
+    height: 100%;
+}
+h1 {
+    padding: 0px;
+    margin: 0px;
+    color:black;
+
+
+}
+
+body {
+    padding: 0px;
+    margin: 0px;
+    width: 100%;
+    height: 100%;
+    text-align:center;
+    background-color: #31839b;
+
+}
+
+
+#container {
+    background-color: black;
+    padding: 0px;
+    margin: 0px auto auto auto;
+    display: grid;
+    width: 500px;
+    height: 500px;
+
+
+}
+.sketch-cell {
+
+    padding: 0px;
+    margin: 0px;
+    display: grid;
+    
+
+
+}
+
+.white {
+    background-color: white;
+}
+
+.red {
+    background-color: red;
+}
+
+.blue {
+    background-color: blue;
+}
+
+.yellow {
+    background-color: yellow;
+}
+
+.green {
+    background-color: green;
+}
+.eraser {
+    background-color: black;
+}
+
+#menu {
+    height: 50px;
+    padding: 0px;
+    margin:0px;
+    text-align: center;
+    background-color: #49319B;
+}
+
+button {
+    padding: 0px;
+    margin-top: 5px;
+    margin-right: 20px;
+    width: 60px;
+    height: 40px;
+}
+
+.active {
+    border: 3px solid black;
+
+    
+}
+

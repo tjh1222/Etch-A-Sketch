@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html>
+    <head><link rel="stylesheet" type="text/css" href="styles.css"></head>
+    <title>Etch-A-Sketch</title>
+    <body>
+        
+        <div id = "menu">
+            <button id = "reset">RESET</button>
+            <button id = "white">White</button>
+            <button id = "red">Red</button>
+            <button id = "green">Green</button>
+            <button id = "blue">Blue</button>
+            <button id = "yellow">Yellow</button>
+            <button id = "rainbow">Rainbow</button>
+            <button id = "eraser">Eraser</button>
+
+
+        </div>
+        <div><h1>Etch-A-Sketch</h1></div>
+
+        <div id = "container"></div>
+        
+    </body>
+</html>
+
+
+<script>
+    
+    let currentColor = "white";
+    let sketchEvent = "mouseover";
+    let rainbow = "false";
+    let toggle = "false";
+
+    
+    const container = document.getElementById("container");
+
+    let gridSize = 16;
+
+    function randomColor()
+    {
+        let random_red = Math.floor(Math.random() * 255);
+        let random_green = Math.floor(Math.random() * 255);
+        let random_blue = Math.floor(Math.random() * 255);
+
+        return `rgb(${random_red}, ${random_green}, ${random_blue})`;
+    }
+
+    //function that removes active class from all buttons except the active one
+    function activeClass(idName)
+    {
+        const buttons = document.querySelectorAll("button");
+        buttons.forEach((button) =>{
+            console.log(button.id);
+            if (button.id !== idName)
+            {
+                console.log("Deactivate ID" + button.id)
+                button.classList.remove("active");
+            }
+            else
+            {
+                button.classList.add("active");
+            }
+        });
+            
+    }
+    
+
+
+
+    function createGrid(gridSize)
+    {
+    let gridArea = gridSize * gridSize;
+    
+    const grid = document.querySelector("#container");
+    for (let i = 0; i < (gridArea); i++)
+    {
+
+        const div = document.createElement('div');
+        div.classList.add("sketch-cell");
+        container.appendChild(div);
+        
+    }
+
+    grid.style.gridTemplateRows = `repeat(${gridSize}, 1fr)`;
+    grid.style.gridTemplateColumns = `repeat(${gridSize}, 1fr)`;
+
+
+    }
+
+    function clearGrid()
+    {
+
+        while(container.firstChild) {
+            container.removeChild(container.lastChild);
+        }
+    }
+    
+    //Create initial grid based on default grid size
+    createGrid(gridSize); 
+    buttonSetUp();
+    setUpEventListeners();
+
+
+    function buttonSetUp()
+    {
+    
+        const whiteBtn = document.querySelector("#white");
+        whiteBtn.addEventListener("click", () => {
+        rainbow = "false";
+        currentColor = "white";
+        activeClass("white");
+    })
+
+    const blueBtn = document.querySelector("#blue");
+    blueBtn.addEventListener("click", () => {
+        rainbow = "false";
+        currentColor = "blue";
+        activeClass("blue");
+    })
+
+    const yellowBtn = document.querySelector("#yellow");
+    yellowBtn.addEventListener("click", () => {
+        rainbow = "false";
+        currentColor = "yellow";
+        activeClass("yellow");
+    })
+
+    const greenBtn = document.querySelector("#green");
+    greenBtn.addEventListener("click", () => {
+        rainbow = "false";
+        currentColor = "green";
+        activeClass("green");
+    })
+
+    const redBtn = document.querySelector("#red");
+    redBtn.addEventListener("click", () => {
+        rainbow = "false";
+        currentColor = "red";
+        activeClass("red");
+    })
+
+    const eraserBtn = document.querySelector("#eraser");
+    eraserBtn.addEventListener("click", () => {
+        rainbow = "false";
+        currentColor = "eraser";
+        activeClass("eraser");
+    })
+    const rainbowBtn = document.querySelector("#rainbow");
+    rainbowBtn.addEventListener("click", () => {
+       rainbow = true;
+       activeClass("rainbow");
+    })
+
+    
+    
+    }
+
+
+    function setUpEventListeners()
+    {
+    //adds an event listener to each cell
+    cells = document.querySelectorAll(".sketch-cell");
+
+    cells.forEach((cell) => {
+
+        cell.addEventListener(sketchEvent, () => {
+            cell.className = '';
+            cell.classList.add("sketch-cell");
+            
+            if (rainbow === "false")
+            {
+                cell.style.backgroundColor = "";
+                cell.style.opacity = "";
+                cell.classList.add(currentColor);
+                
+            }
+            else
+            {
+                if (cell.style.opacity.length > 0)
+                {
+
+                    opacity = Number(cell.style.opacity);
+                    (opacity > 0) ? (opacity -= 0.1) : opacity = 0;
+
+                    cell.style.opacity = `${opacity}`;
+                    console.log(cell.style.opacity);
+
+                }
+                else {
+                randColor = randomColor();
+                cell.style.backgroundColor = randColor;
+                cell.style.opacity = "1.0";
+                }
+            }
+        });
+    });
+    }
+
+ 
+
+    //event listener that resets the board when button is selected
+    const reset = document.querySelector("#reset")
+    reset.addEventListener("click", () => {
+        const cells = document.querySelectorAll(".sketch-cell");
+        cells.forEach((cell) => {
+            cell.className = "";
+            cell.classList.add("sketch-cell");
+        })
+        clearGrid();
+        do {
+            gridSize = prompt("How big would you like the grid? (Input of 3 will result in a 3x3 grid!)");
+            gridSize = parseInt(gridSize);
+
+        } while (Number.isInteger(gridSize) === false);
+        createGrid(gridSize);
+        setUpEventListeners();
+        currentColor = "white";
+
+        
+    });
+
+
+    
+
+
+
+
+</script>
