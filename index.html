@@ -6,6 +6,7 @@
         
         <div id = "menu">
             <button id = "reset">RESET</button>
+            <button id = "click">Click Mode</button>
             <button id = "white">White</button>
             <button id = "red">Red</button>
             <button id = "green">Green</button>
@@ -30,6 +31,7 @@
     let sketchEvent = "mouseover";
     let rainbow = "false";
     let toggle = "false";
+    let clickMode = "false";
 
     
     const container = document.getElementById("container");
@@ -51,7 +53,7 @@
         const buttons = document.querySelectorAll("button");
         buttons.forEach((button) =>{
             console.log(button.id);
-            if (button.id !== idName)
+            if (button.id !== idName && button.id !== click)
             {
                 console.log("Deactivate ID" + button.id)
                 button.classList.remove("active");
@@ -59,10 +61,13 @@
             else
             {
                 button.classList.add("active");
+                
             }
         });
             
     }
+
+    
     
 
 
@@ -151,19 +156,32 @@
        activeClass("rainbow");
     })
 
+    const clickBtn = document.querySelector("#click");
+    clickBtn.addEventListener("click", () => {
+       if (clickBtn.classList.contains("active"))
+       {
+           clickBtn.classList.remove("active");
+           activeClass("click");
+           sketchEvent = "mouseover";
+           setUpEventListeners();
+           clickMode = "false";
+       }
+       else
+       {
+           
+            clickBtn.classList.add("active");
+            sketchEvent = "click";
+            setUpEventListeners();
+            clickMode = "true;"
+       }
     
     
+    })
     }
 
-
-    function setUpEventListeners()
+    function addListener(e)
     {
-    //adds an event listener to each cell
-    cells = document.querySelectorAll(".sketch-cell");
-
-    cells.forEach((cell) => {
-
-        cell.addEventListener(sketchEvent, () => {
+            let cell = e.currentTarget;
             cell.className = '';
             cell.classList.add("sketch-cell");
             
@@ -192,7 +210,50 @@
                 cell.style.opacity = "1.0";
                 }
             }
-        });
+        
+
+    }
+
+
+    function setUpEventListeners()
+    {
+    //adds an event listener to each cell
+    cells = document.querySelectorAll(".sketch-cell");
+
+    cells.forEach((cell) => {
+        cell.removeEventListener("mouseover", addListener);
+        cell.removeEventListener("click", addListener);
+        cell.addEventListener(sketchEvent, addListener);
+        // cell.addEventListener(sketchEvent, () => {
+        //     cell.className = '';
+        //     cell.classList.add("sketch-cell");
+            
+        //     if (rainbow === "false")
+        //     {
+        //         cell.style.backgroundColor = "";
+        //         cell.style.opacity = "";
+        //         cell.classList.add(currentColor);
+                
+        //     }
+        //     else
+        //     {
+        //         if (cell.style.opacity.length > 0)
+        //         {
+
+        //             opacity = Number(cell.style.opacity);
+        //             (opacity > 0) ? (opacity -= 0.1) : opacity = 0;
+
+        //             cell.style.opacity = `${opacity}`;
+        //             console.log(cell.style.opacity);
+
+        //         }
+        //         else {
+        //         randColor = randomColor();
+        //         cell.style.backgroundColor = randColor;
+        //         cell.style.opacity = "1.0";
+        //         }
+        //     }
+        // });
     });
     }
 
