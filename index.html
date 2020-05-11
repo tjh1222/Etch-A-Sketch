@@ -20,8 +20,10 @@
         <div><h1>Etch-A-Sketch</h1></div>
 
         <div id = "container"></div>
+
         
     </body>
+    <footer>By Tyler Hurley</footer>
 </html>
 
 
@@ -53,7 +55,11 @@
         const buttons = document.querySelectorAll("button");
         buttons.forEach((button) =>{
             console.log(button.id);
-            if (button.id !== idName && button.id !== click)
+            if (button.id === "click")
+            {
+                continue;
+            }
+            else if (button.id !== idName)
             {
                 console.log("Deactivate ID" + button.id)
                 button.classList.remove("active");
@@ -161,18 +167,16 @@
        if (clickBtn.classList.contains("active"))
        {
            clickBtn.classList.remove("active");
-           activeClass("click");
            sketchEvent = "mouseover";
            setUpEventListeners();
            clickMode = "false";
        }
        else
        {
-           
             clickBtn.classList.add("active");
             sketchEvent = "click";
             setUpEventListeners();
-            clickMode = "true;"
+            clickMode = "true";
        }
     
     
