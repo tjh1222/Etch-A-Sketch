@@ -57,7 +57,7 @@
             console.log(button.id);
             if (button.id === "click")
             {
-                continue;
+                //continue;
             }
             else if (button.id !== idName)
             {
@@ -228,37 +228,7 @@
         cell.removeEventListener("mouseover", addListener);
         cell.removeEventListener("click", addListener);
         cell.addEventListener(sketchEvent, addListener);
-        // cell.addEventListener(sketchEvent, () => {
-        //     cell.className = '';
-        //     cell.classList.add("sketch-cell");
-            
-        //     if (rainbow === "false")
-        //     {
-        //         cell.style.backgroundColor = "";
-        //         cell.style.opacity = "";
-        //         cell.classList.add(currentColor);
-                
-        //     }
-        //     else
-        //     {
-        //         if (cell.style.opacity.length > 0)
-        //         {
-
-        //             opacity = Number(cell.style.opacity);
-        //             (opacity > 0) ? (opacity -= 0.1) : opacity = 0;
-
-        //             cell.style.opacity = `${opacity}`;
-        //             console.log(cell.style.opacity);
-
-        //         }
-        //         else {
-        //         randColor = randomColor();
-        //         cell.style.backgroundColor = randColor;
-        //         cell.style.opacity = "1.0";
-        //         }
-        //     }
-        // });
-    });
+     });
     }
 
  
