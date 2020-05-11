@@ -55,20 +55,17 @@
         const buttons = document.querySelectorAll("button");
         buttons.forEach((button) =>{
             console.log(button.id);
-            if (button.id === "click")
+            
+            if (button.id === idName)
             {
-                //continue;
+                button.classList.add("active");
             }
-            else if (button.id !== idName)
+            else if (button.id !== idName && button.id !== "click")
             {
                 console.log("Deactivate ID" + button.id)
                 button.classList.remove("active");
             }
-            else
-            {
-                button.classList.add("active");
-                
-            }
+            
         });
             
     }
