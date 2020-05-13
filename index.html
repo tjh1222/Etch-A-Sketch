@@ -14,6 +14,7 @@
             <button id = "yellow">Yellow</button>
             <button id = "rainbow">Rainbow</button>
             <button id = "eraser">Eraser</button>
+            <button id = "drag">Drag Mode</button>
 
 
         </div>
@@ -34,6 +35,11 @@
     let rainbow = "false";
     let toggle = "false";
     let clickMode = "false";
+    let dragMode = "false";
+    // let mouseEnter = "false";
+    let mouseUp = "false";
+    // let mouseDown = "false";
+    
 
     
     const container = document.getElementById("container");
@@ -155,7 +161,7 @@
     })
     const rainbowBtn = document.querySelector("#rainbow");
     rainbowBtn.addEventListener("click", () => {
-       rainbow = true;
+       rainbow = "true";
        activeClass("rainbow");
     })
 
@@ -175,42 +181,131 @@
             setUpEventListeners();
             clickMode = "true";
        }
+    });
+
+       const dragBtn = document.querySelector("#drag");
+       dragBtn.addEventListener("click", () => {
+       if (dragBtn.classList.contains("active"))
+       {
+           dragBtn.classList.remove("active");
+           sketchEvent = "mouseover";
+           dragMode = "false";
+        
+           setUpEventListeners();
+           
+       }
+       else
+       {
+            dragBtn.classList.add("active");
+            dragMode = "true";
+//            sketchEvent = "click";
+            setUpEventListeners();
+//            clickMode = "true";
+       }
+    });
+    }
     
-    
-    })
+
+    function normalDraw(cell, e)
+    {
+        console.log("The value of e is: " + e.type);
+        if(document.getElementById("drag").classList.contains("active"))
+        {
+            if ((e.type == "mouseenter" || e.type == "mousedown") && mouseUp == "false")
+            {
+                cell.style.backgroundColor = "";
+                cell.style.opacity = "";
+                cell.className = "";
+                cell.classList.add(currentColor);
+            
+            }
+            
+        }
+        else
+        {
+            cell.className = "";
+            cell.style.backgroundColor = "";
+            cell.style.opacity = "";
+            cell.classList.add(currentColor);
+        }
+        
+
+        
+
+    }
+
+    function addShade(cell, e)
+    {
+        let opacity = Number(cell.style.opacity);
+        (opacity > 0) ? (opacity -= 0.1) : opacity = 0;
+        cell.style.opacity = `${opacity}`;
+        console.log(cell.style.opacity);
+
+    }
+
+    function rainbowDraw(cell, e)
+    {
+        if (document.getElementById("drag").classList.contains("active"))
+        {
+            if ((e.type == "mouseenter" || e.type == "mousedown") && mouseUp == "false")
+            {  
+                if (cell.style.opacity.length > 0)
+                {
+                    addShade(cell, e);
+                } 
+                else
+                {
+                    randColor = randomColor();
+                    cell.style.backgroundColor = randColor;
+                    cell.style.opacity = "1.0";
+                }
+                
+            }
+        }
+        
+        else if (cell.style.opacity.length > 0)
+        {
+            addShade(cell, e);
+
+        }
+        else 
+        {
+            
+            randColor = randomColor();
+            cell.style.backgroundColor = randColor;
+            cell.style.opacity = "1.0";
+        }
     }
 
     function addListener(e)
     {
             let cell = e.currentTarget;
-            cell.className = '';
+           // cell.className = '';
             cell.classList.add("sketch-cell");
-            
-            if (rainbow === "false")
+            if (e.type == "mouseup")
             {
-                cell.style.backgroundColor = "";
-                cell.style.opacity = "";
-                cell.classList.add(currentColor);
+                mouseUp = "true";
+
+
+            }
+            else if (e.type == "mousedown")
+            {
+                mouseUp = "false";
+            }
+            
+            
+            console.log("Rainbow is equal to: " + rainbow);
+            if (rainbow === "true")
+            {
+
+                rainbowDraw(cell, e);
+                
                 
             }
             else
             {
-                if (cell.style.opacity.length > 0)
-                {
-
-                    opacity = Number(cell.style.opacity);
-                    (opacity > 0) ? (opacity -= 0.1) : opacity = 0;
-
-                    cell.style.opacity = `${opacity}`;
-                    console.log(cell.style.opacity);
-
-                }
-                else {
-                randColor = randomColor();
-                cell.style.backgroundColor = randColor;
-                cell.style.opacity = "1.0";
-                }
-            }
+                normalDraw(cell, e);
+             }
         
 
     }
@@ -222,9 +317,22 @@
     cells = document.querySelectorAll(".sketch-cell");
 
     cells.forEach((cell) => {
+        cell.removeEventListener("mouseenter", addListener);
         cell.removeEventListener("mouseover", addListener);
         cell.removeEventListener("click", addListener);
-        cell.addEventListener(sketchEvent, addListener);
+
+        cell.addEventListener("mousedown", addListener);
+        cell.addEventListener("mouseup", addListener);
+       // cell.addEventListener(sketchEvent, addListener);
+
+        if (document.getElementById("drag").classList.contains("active"))
+        {
+            cell.addEventListener("mouseenter", addListener);
+        }
+        else
+        {
+            cell.addEventListener(sketchEvent, addListener);
+        }
      });
     }
 
