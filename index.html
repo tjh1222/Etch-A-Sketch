@@ -6,7 +6,6 @@
         
         <div id = "menu">
             <button id = "reset">RESET</button>
-            <button id = "click">Click Mode</button>
             <button id = "white">White</button>
             <button id = "red">Red</button>
             <button id = "green">Green</button>
@@ -31,13 +30,14 @@
 <script>
     
     let currentColor = "white";
-    let sketchEvent = "mouseover";
+    let sketchEvent = "mouseover"
     let rainbow = "false";
     let toggle = "false";
     let clickMode = "false";
     let dragMode = "false";
     // let mouseEnter = "false";
-    let mouseUp = "false";
+    let mouseUp = "true";
+    let mouseDown = "false";
     // let mouseDown = "false";
     
 
@@ -66,7 +66,7 @@
             {
                 button.classList.add("active");
             }
-            else if (button.id !== idName && button.id !== "click")
+            else if (button.id !== idName && button.id !== "click" && button.id !== "drag")
             {
                 console.log("Deactivate ID" + button.id)
                 button.classList.remove("active");
@@ -165,30 +165,13 @@
        activeClass("rainbow");
     })
 
-    const clickBtn = document.querySelector("#click");
-    clickBtn.addEventListener("click", () => {
-       if (clickBtn.classList.contains("active"))
-       {
-           clickBtn.classList.remove("active");
-           sketchEvent = "mouseover";
-           setUpEventListeners();
-           clickMode = "false";
-       }
-       else
-       {
-            clickBtn.classList.add("active");
-            sketchEvent = "click";
-            setUpEventListeners();
-            clickMode = "true";
-       }
-    });
 
        const dragBtn = document.querySelector("#drag");
        dragBtn.addEventListener("click", () => {
        if (dragBtn.classList.contains("active"))
        {
            dragBtn.classList.remove("active");
-           sketchEvent = "mouseover";
+//           sketchEvent = "mouseover";
            dragMode = "false";
         
            setUpEventListeners();
@@ -211,7 +194,8 @@
         console.log("The value of e is: " + e.type);
         if(document.getElementById("drag").classList.contains("active"))
         {
-            if ((e.type == "mouseenter" || e.type == "mousedown") && mouseUp == "false")
+            console.log("test");
+            if ((e.type == "mousedown" || e.type == "mouseenter") && mouseUp == "false")
             {
                 cell.style.backgroundColor = "";
                 cell.style.opacity = "";
@@ -247,7 +231,7 @@
     {
         if (document.getElementById("drag").classList.contains("active"))
         {
-            if ((e.type == "mouseenter" || e.type == "mousedown") && mouseUp == "false")
+            if ((e.type == "mouseenter" || e.type == "mousedown") && (mouseUp == "false" && mouseDown =="true"))
             {  
                 if (cell.style.opacity.length > 0)
                 {
@@ -285,13 +269,16 @@
             if (e.type == "mouseup")
             {
                 mouseUp = "true";
+                mouseDown = "false";
 
 
             }
             else if (e.type == "mousedown")
             {
                 mouseUp = "false";
+                mouseDown = "true";
             }
+            
             
             
             console.log("Rainbow is equal to: " + rainbow);
@@ -327,6 +314,7 @@
 
         if (document.getElementById("drag").classList.contains("active"))
         {
+
             cell.addEventListener("mouseenter", addListener);
         }
         else
